@@ -34,17 +34,22 @@ const SearchBar = () => (
       placeholderTextColor="#666"
     />
     <TouchableOpacity style={styles.filterButton}>
-      <Ionicons name="options-outline" size={20} color="#0077cc" />
+      <Ionicons name="options" size={20} color="#006B7F" />
     </TouchableOpacity>
   </View>
 );
 
 const ListHeader = () => (
-  <View style={styles.listHeader}>
-    <Text style={styles.listTitle}>All Hotels & Resorts</Text>
-    <TouchableOpacity>
-      <Text style={styles.seeAll}>See All</Text>
-    </TouchableOpacity>
+  <View>
+    <View style={styles.headerContainer}>
+      <View style={styles.horizontalLine} />
+      <Text style={styles.listTitle}>
+        Hotels & <Text style={styles.coloredText}>Resorts</Text>
+      </Text>
+      <TouchableOpacity>
+        <Text style={styles.seeAll}>See All</Text>
+      </TouchableOpacity>
+    </View>
   </View>
 );
 
@@ -58,7 +63,7 @@ const RatingStars = ({ count = 4 }) => (
 
 const HotelCard = ({ hotel }) => {
   const { width } = useWindowDimensions();
-  const cardWidth = width - 40; // 40 is total horizontal padding
+  const cardWidth = width - 40;
 
   return (
     <TouchableOpacity style={[styles.hotelCard, { width: cardWidth }]}>
@@ -70,23 +75,27 @@ const HotelCard = ({ hotel }) => {
             resizeMode="cover"
           />
           <TouchableOpacity style={styles.favoriteButton}>
-            <Ionicons name="heart-outline" size={24} color="#0D6EFD" />
+            <Ionicons name="heart-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
         <View style={styles.hotelInfo}>
-          <Text style={styles.hotelName} numberOfLines={1}>
-            {hotel.name}
-          </Text>
-          <Text style={styles.hotelLocation} numberOfLines={1}>
-            {hotel.location}
-          </Text>
-          <View style={styles.ratingContainer}>
-            <RatingStars count={hotel.rating} />
-            <Text style={styles.reviews}>({hotel.reviews} Reviews)</Text>
-          </View>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>₹{hotel.price}</Text>
-            <Text style={styles.perNight}>Per Night</Text>
+          <View style={styles.infoContainer}>
+            <View>
+              <Text style={styles.hotelName} numberOfLines={1}>
+                {hotel.name}
+              </Text>
+              <Text style={styles.hotelLocation} numberOfLines={1}>
+                {hotel.location}
+              </Text>
+              <View style={styles.ratingContainer}>
+                <RatingStars count={hotel.rating} />
+                <Text style={styles.reviews}>({hotel.reviews} Reviews)</Text>
+              </View>
+            </View>
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>₹{hotel.price}</Text>
+              <Text style={styles.perNight}>Per Night</Text>
+            </View>
           </View>
         </View>
       </Link>
@@ -102,7 +111,7 @@ const hotelData = [
     imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
     rating: 4,
     reviews: 569,
-    price: "8,066",
+    price: "18,066",
   },
   {
     id: 2,
@@ -112,6 +121,15 @@ const hotelData = [
     rating: 4,
     reviews: 226,
     price: "8,066",
+  },
+  {
+    id: 3,
+    name: "Day Dream Resort",
+    location: "Dabolim, Goa",
+    imageUrl: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+    rating: 4,
+    reviews: 146,
+    price: "11,066",
   },
 ];
 
@@ -149,16 +167,17 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "white",
   },
   header: {
     position: "absolute",
-    top: 40,
+    top: 0,
     left: 0,
     right: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
+    paddingVertical: 10,
     zIndex: 1,
   },
   backButton: {
@@ -181,9 +200,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
-    borderBottomLeftRadius: 45,
-    borderBottomRightRadius: 45,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     overflow: "hidden",
+    backgroundColor: "#006B7F",
   },
   title: {
     fontWeight: "bold",
@@ -219,86 +239,120 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   listTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
     color: "#333",
+    flex: 1,
+  },
+  coloredText: {
+    color: "#006B7F",
   },
   seeAll: {
-    color: "#0077cc",
-    fontSize: 14,
+    color: "#006B7F",
+    fontSize: 16,
   },
   hotelList: {
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   hotelCard: {
     backgroundColor: "white",
-    borderRadius: 15,
+    borderRadius: 20,
     marginBottom: 20,
+    borderWidth: 2,
+    borderColor: "#006B7F",
+    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 3,
   },
   imageContainer: {
     position: "relative",
+    width: "100%",
   },
   hotelImage: {
-    height: 200,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    height: 180,
   },
   favoriteButton: {
     position: "absolute",
     right: 15,
     top: 15,
-    backgroundColor: "rgba(192,192,192,0.7)",
+    backgroundColor: "#006B7F",
     borderRadius: 20,
     padding: 8,
     zIndex: 1,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
   },
   hotelInfo: {
-    padding: 15,
+    padding: 16,
+  },
+  infoContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    width: "100%",
   },
   hotelName: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "600",
     color: "#333",
+    marginBottom: 4,
+    maxWidth: "80%",
   },
   hotelLocation: {
     fontSize: 14,
     color: "#666",
-    marginTop: 5,
+    marginBottom: 8,
+    maxWidth: "80%",
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 8,
   },
   stars: {
     flexDirection: "row",
     marginRight: 5,
   },
   reviews: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#666",
   },
   priceContainer: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    marginTop: 10,
+    alignItems: "flex-end",
   },
   price: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#0077cc",
+    color: "#006B7F",
   },
   perNight: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#666",
-    marginLeft: 5,
+    marginTop: 4,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 15,
+  },
+  horizontalLine: {
+    width: 30,
+    height: 2,
+    backgroundColor: '#000000',
+    marginRight: 15,
   },
 });
